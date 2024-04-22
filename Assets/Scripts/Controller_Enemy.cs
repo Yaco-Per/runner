@@ -23,4 +23,15 @@ public class Controller_Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    // Método para recibir daño del jugador
+    public void TakeDamage(Vector3 shootDirection)
+    {
+        // Aquí puedes implementar la lógica para restar vida al enemigo
+        // Por ejemplo, puedes aplicar una fuerza al enemigo en la dirección del disparo
+        rb.AddForce(shootDirection * 10, ForceMode.Impulse);
+        // Puedes también implementar lógica para verificar si el enemigo ha muerto
+        // Si es así, puedes destruir el objeto del enemigo
+        Destroy(this.gameObject);
+    }
 }

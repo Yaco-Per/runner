@@ -7,6 +7,7 @@ public class Controller_Player : MonoBehaviour
     private float initialSize;
     private int i = 0;
     private bool floored;
+    public GameObject bulletPrefab; // GameObject de la bala 3D
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class Controller_Player : MonoBehaviour
     {
         Jump();
         Duck();
+        Shoot();
     }
 
     private void Jump()
@@ -62,6 +64,27 @@ public class Controller_Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.S))
             {
                 rb.AddForce(new Vector3(0, -jumpForce, 0), ForceMode.Impulse);
+            }
+        }
+    }
+
+    private void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            // Instanciar el GameObject de la bala 3D
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            // Obtener la dirección del disparo (hacia adelante)
+            Vector3 shootDirection = transform.forward;
+            // Obtener todos los objetos con el tag "Enemy"
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            // Iterar sobre todos los enemigos y enviarles un mensaje para que reciban el disparo
+            foreach (GameObject enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    enemy.SendMessage("TakeDamage", shootDirection);
+                }
             }
         }
     }
